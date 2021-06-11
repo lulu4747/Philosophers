@@ -1,6 +1,7 @@
 NAME			= philo
 
-SRCS			= main.c
+SRCS			= death.c
+SRCS			+= main.c
 SRCS			+= parsing.c
 SRCS			+= philosophy.c
 
