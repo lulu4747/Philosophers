@@ -16,19 +16,22 @@
 typedef struct s_phi
 {
 	int				id;
-	int				last_meal;
-	int				nm;
+	struct timeval	eat;
+	struct timeval	sleep;
+	struct timeval	tmp;
 	int				state;
 	int				health;
 	int				*params;
-	pthread_mutex_t	*left;
-	pthread_mutex_t	*right;
-	pthread_mutex_t	*abs;
+	pthread_t		tid;
+	pthread_mutex_t	left;
+	pthread_mutex_t	right;
+	pthread_mutex_t	abs;
 	struct s_phi	*next;
 }	t_phi;
 
 int		parsing(int ac, char **av, int **params);
 int		philosophy(int *params);
+void	*life(void *arg);
 t_phi	*death(t_phi *phi);
 
 #endif

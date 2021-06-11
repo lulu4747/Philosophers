@@ -4,19 +4,20 @@ t_phi	*death(t_phi *first)
 {
 	t_phi	*phi;
 	t_phi	*next;
+	int		i;
 
-	if (first->right)
-		pthread_mutex_destroy(first->right);
-	if (first->abs)
-		pthread_mutex_destroy(first->abs);
+	i = 1;
+	pthread_mutex_destroy(&(first->right));
+	pthread_mutex_destroy(&(first->abs));
 	phi = first->next;
 	while (phi != NULL && phi != first)
 	{
 		next = phi->next;
-		if (phi->right)
-			pthread_mutex_destroy(phi->right);
+		if (i != phi->params[NP])
+			pthread_mutex_destroy(&(phi->right));
 		free(phi);
 		phi = next;
+		i++;
 	}
 	free(phi);
 	return (NULL);
