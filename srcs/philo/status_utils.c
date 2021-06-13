@@ -6,8 +6,7 @@ int	time_diff(struct timeval diff, int n)
 	int				ms_diff;
 
 	gettimeofday(&now, NULL);
-	ms_diff = ((int)(now.tv_sec - diff.tv_sec)) * 1000;
-	ms_diff += (int)(now.tv_usec - diff.tv_usec);
+	ms_diff = (int)(now.tv_usec - diff.tv_usec);
 	if (ms_diff >= n)
 		return (1);
 	return (0);
@@ -19,13 +18,13 @@ static void	*end(t_phi **phi, int bl)
 	int				i;
 
 	i = 0;
-	pthread_mutex_lock(&((*phi)->abs));
+	pthread_mutex_lock((*phi)->abs);
 	if (bl == 1)
 	{
 		gettimeofday(&now, NULL);
 		printf("%ld %d died\n", now.tv_usec, (*phi)->id);
 	}
-	pthread_mutex_destroy(&((*phi)->abs));
+	pthread_mutex_destroy((*phi)->abs);
 	while (++i <= (*phi)->params[NP])
 	{
 		pthread_join((*phi)->tid, NULL);
@@ -41,6 +40,7 @@ void	*philosophers_status(void *arg)
 
 	i = 0;
 	phi = (t_phi **)arg;
+	usleep((useconds_t)((*phi)->params[TD]));
 	while (*phi)
 	{
 		if (time_diff((*phi)->eat, (*phi)->params[TD]) == 1)

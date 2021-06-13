@@ -21,9 +21,9 @@ typedef struct s_phi
 	int				state;
 	int				*params;
 	pthread_t		tid;
-	pthread_mutex_t	left;
-	pthread_mutex_t	right;
-	pthread_mutex_t	abs;
+	pthread_mutex_t	*left;
+	pthread_mutex_t	*right;
+	pthread_mutex_t	*abs;
 	struct s_phi	*next;
 }	t_phi;
 
