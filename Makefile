@@ -5,6 +5,7 @@ SRCS			+= life.c
 SRCS			+= main.c
 SRCS			+= parsing.c
 SRCS			+= philosophy.c
+SRCS			+= status_utils.c
 
 OBJ_DIR			= ./srcs/obj/
 PHILO_DIR		= ./srcs/philo/

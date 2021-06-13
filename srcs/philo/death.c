@@ -1,6 +1,6 @@
 #include "philo.h"
 
-t_phi	*death(t_phi *first)
+void	*death(t_phi *first)
 {
 	t_phi	*phi;
 	t_phi	*next;
@@ -8,7 +8,6 @@ t_phi	*death(t_phi *first)
 
 	i = 1;
 	pthread_mutex_destroy(&(first->right));
-	pthread_mutex_destroy(&(first->abs));
 	phi = first->next;
 	while (phi != NULL && phi != first)
 	{

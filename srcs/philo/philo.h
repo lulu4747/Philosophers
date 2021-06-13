@@ -17,10 +17,8 @@ typedef struct s_phi
 {
 	int				id;
 	struct timeval	eat;
-	struct timeval	sleep;
-	struct timeval	tmp;
+	int				nb_meal;
 	int				state;
-	int				health;
 	int				*params;
 	pthread_t		tid;
 	pthread_mutex_t	left;
@@ -32,6 +30,8 @@ typedef struct s_phi
 int		parsing(int ac, char **av, int **params);
 int		philosophy(int *params);
 void	*life(void *arg);
-t_phi	*death(t_phi *phi);
+void	*death(t_phi *phi);
+int		time_diff(struct timeval diff, int n);
+void	*philosophers_status(void *arg);
 
 #endif
