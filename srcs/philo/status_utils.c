@@ -29,7 +29,10 @@ static void	*end(t_phi **phi, int bl)
 	{
 		pthread_join((*phi)->tid, NULL);
 		*phi = (*phi)->next;
+		i++;
 	}
+	free((*phi)->abs);
+	(*phi)->abs = NULL;
 	return (death(*phi));
 }
 
@@ -40,7 +43,7 @@ void	*philosophers_status(void *arg)
 
 	i = 0;
 	phi = (t_phi **)arg;
-	usleep((useconds_t)((*phi)->params[TD]));
+	usleep((useconds_t)(((*phi)->params[TD]) / 2));
 	while (*phi)
 	{
 		if (time_diff((*phi)->eat, (*phi)->params[TD]) == 1)

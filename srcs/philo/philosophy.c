@@ -2,25 +2,17 @@
 
 static t_phi	*mutexes_builder(int id, t_phi *prev, t_phi *phi)
 {
-	int				ret;
-	pthread_mutex_t	mtx;
-
-	ret = 0;
 	if (id == 0)
 	{
-		if (pthread_mutex_init(&mtx, NULL) != 0)
-			ret = 2;
-		phi->left = &mtx;
-		if (pthread_mutex_init(&mtx, NULL) != 0)
-			ret += 1;
-		phi->abs = &mtx;
-		if (ret != 0)
+		phi->abs = mtx_create(NULL);
+		phi->left = mtx_create(NULL);
+		if (!phi->left || !phi->abs)
 		{		
-			pthread_mutex_destroy(phi->right);
-			if (ret == 1)
-				pthread_mutex_destroy(&(*(phi->left)));
-			if (ret == 2)
-				pthread_mutex_destroy(&(*(phi->abs)));
+			phi->right = mtx_destroy(phi->right);
+			if (phi->abs != NULL)
+				phi->abs = mtx_destroy(phi->abs);
+			if (phi->left != NULL)
+				phi->left = mtx_destroy(phi->left);
 			free(phi);
 			return (NULL);
 		}
@@ -36,19 +28,18 @@ static t_phi	*mutexes_builder(int id, t_phi *prev, t_phi *phi)
 static t_phi	*birth(int *params, int id, t_phi *prev)
 {
 	t_phi			*phi;
-	pthread_mutex_t	mtx;
 
 	phi = malloc(sizeof(t_phi));
 	if (!phi)
 		return (NULL);
 	if (id == 0 || id + 1 < params[NP])
 	{
-		if (pthread_mutex_init(&mtx, NULL) != 0)
+		phi->right = mtx_create(NULL);
+		if (!phi->right)
 		{
 			free(phi);
 			return (NULL);
 		}
-		phi->right = &mtx;
 	}
 	phi->id = id + 1;
 	gettimeofday(&(phi->eat), NULL);
@@ -74,14 +65,12 @@ static t_phi	*philosophers_builder(int *params)
 	{
 		phi->next = birth(params, i, phi);
 		if (!(phi->next))
-		{
-			pthread_mutex_destroy(first->abs);
 			return (death(first));
-		}
 		phi = phi->next;
 	}
 	phi->next = first;
-	phi->right = first->left;
+	if (i != 0)
+		phi->right = first->left;
 	return (first);
 }
 

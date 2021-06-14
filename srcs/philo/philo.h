@@ -27,11 +27,13 @@ typedef struct s_phi
 	struct s_phi	*next;
 }	t_phi;
 
-int		parsing(int ac, char **av, int **params);
-int		philosophy(int *params);
-void	*life(void *arg);
-void	*death(t_phi *phi);
-int		time_diff(struct timeval diff, int n);
-void	*philosophers_status(void *arg);
+int				parsing(int ac, char **av, int **params);
+int				philosophy(int *params);
+void			*life(void *arg);
+void			*death(t_phi *phi);
+int				time_diff(struct timeval diff, int n);
+void			*philosophers_status(void *arg);
+pthread_mutex_t	*mtx_create(const pthread_mutexattr_t *restrict attr);
+pthread_mutex_t	*mtx_destroy(pthread_mutex_t *mtx);
 
 #endif
