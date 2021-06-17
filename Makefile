@@ -18,7 +18,7 @@ OBJ				= $(addprefix $(OBJ_DIR),$(SRCS:.c=.o))
 INC				= ./srcs/philo/philo.h
 
 CC				= gcc
-CFLAGS			= -Wall -Werror -Wextra -g
+CFLAGS			= -Wall -Werror -Wextra
 P_THREAD		= -pthread
 RM				= rm -f
 RM_DIR			= rm -rf

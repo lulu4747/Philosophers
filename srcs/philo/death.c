@@ -12,7 +12,6 @@ void	*death(t_phi *phi)
 	t_phi	*next;
 
 	first = phi;
-	first->abs = mtx_destroy(first->abs);
 	phi = phi->next;
 	while (phi != NULL && phi != first)
 	{

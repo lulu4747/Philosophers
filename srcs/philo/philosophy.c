@@ -14,7 +14,6 @@ static t_phi	*birth(int *params, int id, t_frk *frk, pthread_mutex_t *abs)
 	phi->nb_meal = 0;
 	gettimeofday(&(phi->eat), NULL);
 	phi->params = params;
-	phi->state = 0;
 	phi->health = 0;
 	return (phi);
 }
@@ -46,47 +45,77 @@ static t_phi	*philosophers_builder(int *params, t_frk *frk, pthread_mutex_t *abs
 	return (first);
 }
 
-int	philosophy(int *params)
+t_status	*status_builder(int *params)
 {
-	int				i;
-	t_phi			*phi;
-	pthread_t		status_tid;
-	pthread_mutex_t	*abs;
-	t_frk			*frk;
+	t_status	*status;
+
+	status = malloc(sizeof(t_status));
+	if (!status)
+	{
+		free(params);
+		return (NULL);
+	}
+	status->closing = 0;
+	status->state = NULL;
+	status->phi = NULL;
+	status->frk = NULL;
+	status->abs = mtx_create(NULL);
+	if (!status->abs)
+		return (status_clean(status));
+	status->state = mtx_create(NULL);
+	if (!status->abs)
+		return (status_clean(status));
+	status->frk = frk_builder(params[NP]);
+	if (!status->frk)
+		return (status_clean(status));
+	status->phi = philosophers_builder(params, status->frk, status->abs);
+	if (!status->phi)
+		return (status_clean(status));
+	return (status);
+}
+
+static void	phi_launcher(t_status *status, t_phi *phi, int *params)
+{
+	int	i;
 
 	i = 0;
-	abs = mtx_create(NULL);
-	if (!abs)
+	while (++i <= params[NP] && !status->closing)
+	{
+		pthread_mutex_lock(status->state);
+		if (!status->closing)
+		{
+			pthread_create(&(phi->tid), NULL, &life, (void *)phi);
+			pthread_detach(phi->tid);
+			phi = phi->next;
+		}
+		pthread_mutex_unlock(status->state);
+		usleep(500);
+	}
+	if (i < params[NP])
+	{
+		status->phi = phi;
+		while (++i <= params[NP])
+			phi = phi->next;
+		phi->next = NULL;
+		death(status->phi);
+	}
+}
+
+int	philosophy(int *params)
+{
+	t_status		*status;
+
+	status = status_builder(params);
+	if (!status)
 	{
 		free(params);
 		return (1);
 	}
-	frk = frk_builder(params[NP]);
-	if (!frk)
-	{
-		abs = mtx_destroy(abs);
-		free(params);
-		return (1);
-	}
-	phi = philosophers_builder(params, frk, abs);
-	if (!phi)
-	{
-		abs = mtx_destroy(abs);
-		frk_free(frk);
-		free(params);
-		return (1);
-	}
-	pthread_create(&status_tid, NULL, &philosophers_status, (void *)(&phi));
-	while (++i <= params[NP])
-	{
-		pthread_create(&(phi->tid), NULL, &life, (void *)phi);
-		pthread_detach(phi->tid);
-		phi = phi->next;
-	}
-	pthread_join(status_tid, NULL);
-	usleep(100000 * params[NP]);
+	pthread_create(&status->tid, NULL, &philosophers_status, (void *)(&status));
+	phi_launcher(status, status->phi, params);
+	pthread_join(status->tid, NULL);
+	usleep(10000 * params[NP]);
 	free(params);
-	abs = mtx_destroy(abs);
-	frk_free(frk);
+	status = status_clean(status);
 	return (0);
 }

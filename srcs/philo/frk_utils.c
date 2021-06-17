@@ -16,9 +16,9 @@ int	print_fork(t_phi **phi, int type)
 	}
 	gettimeofday(&now, NULL);
 	if (type <= 2)
-		printf("%ld %d has taken a fork\n", now.tv_usec, (*phi)->id);
+		printf("%d %d has taken a fork\n", milliseconds(now), (*phi)->id);
 	else
-		printf("%ld %d has put a fork back on the table\n", now.tv_usec, (*phi)->id);
+		printf("%d %d has put a fork back on the table\n", milliseconds(now), (*phi)->id);
 	pthread_mutex_unlock((*phi)->abs);
 	return (0);
 }

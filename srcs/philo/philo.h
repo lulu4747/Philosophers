@@ -24,7 +24,6 @@ typedef struct s_phi
 	int				id;
 	struct timeval	eat;
 	int				nb_meal;
-	int				state;
 	int				health;
 	int				*params;
 	pthread_t		tid;
@@ -35,10 +34,21 @@ typedef struct s_phi
 	struct s_phi	*prev;
 }	t_phi;
 
+typedef struct s_status
+{
+	pthread_t		tid;
+	int				closing;
+	t_frk			*frk;
+	t_phi			*phi;
+	pthread_mutex_t	*abs;
+	pthread_mutex_t	*state;
+}	t_status;
+
 int				parsing(int ac, char **av, int **params);
 int				philosophy(int *params);
 void			*life(void *arg);
 void			*death(t_phi *phi);
+int				milliseconds(struct timeval time);
 int				time_diff(struct timeval diff, int n);
 int				abs_lock(t_phi **phi);
 int				print_fork(t_phi **phi, int type);
@@ -46,6 +56,7 @@ int				fork_lock(t_phi **phi);
 t_frk			*frk_builder(int n);
 void			frk_free(t_frk *frk);
 void			*philosophers_status(void *arg);
+t_status		*status_clean(t_status *status);
 void			*delone(t_phi **phi);
 pthread_mutex_t	*mtx_create(const pthread_mutexattr_t *restrict attr);
 pthread_mutex_t	*mtx_destroy(pthread_mutex_t *mtx);

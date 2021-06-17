@@ -9,7 +9,7 @@ static int	think(t_phi **phi)
 	if (ret != 0)
 		return (1);
 	gettimeofday(&now, NULL);
-	printf("%ld %d is thinking\n", now.tv_usec, (*phi)->id);
+	printf("%d %d is thinking\n", milliseconds(now), (*phi)->id);
 	pthread_mutex_unlock((*phi)->abs);
 	return (0);
 }
@@ -23,7 +23,7 @@ static int	nap(t_phi **phi, int time)
 	if (ret != 0)
 		return (1);
 	gettimeofday(&now, NULL);
-	printf("%ld %d is sleeping\n", now.tv_usec, (*phi)->id);
+	printf("%d %d is sleeping\n", milliseconds(now), (*phi)->id);
 	pthread_mutex_unlock((*phi)->abs);
 	while (ret == 0)
 	{
@@ -49,7 +49,7 @@ static int	eat(t_phi **phi, int time)
 		return (1);
 	}
 	gettimeofday(&((*phi)->eat), NULL);
-	printf("%ld %d is eating\n", (*phi)->eat.tv_usec, (*phi)->id);
+	printf("%d %d is eating\n", milliseconds((*phi)->eat), (*phi)->id);
 	pthread_mutex_unlock((*phi)->abs);
 	(*phi)->nb_meal++;
 	while (ret == 0)
@@ -73,7 +73,6 @@ void	*life(void *arg)
 	t_phi	*phi;
 
 	phi = (t_phi *)arg;
-	usleep(1000 * (phi->params[NP] - phi->id));
 	while (1)
 	{
 		if (fork_lock(&phi) != 0)
