@@ -1,6 +1,7 @@
 NAME			= philo
 
 SRCS			= death.c
+SRCS			+= frk_utils.c
 SRCS			+= life.c
 SRCS			+= main.c
 SRCS			+= mutex_utils.c
@@ -17,7 +18,7 @@ OBJ				= $(addprefix $(OBJ_DIR),$(SRCS:.c=.o))
 INC				= ./srcs/philo/philo.h
 
 CC				= gcc
-CFLAGS			= -Wall -Werror -Wextra
+CFLAGS			= -Wall -Werror -Wextra -g
 P_THREAD		= -pthread
 RM				= rm -f
 RM_DIR			= rm -rf

@@ -5,7 +5,7 @@ static int	think(t_phi **phi)
 	struct timeval	now;
 	int				ret;
 
-	ret = pthread_mutex_lock((*phi)->abs);
+	ret = abs_lock(phi);
 	if (ret != 0)
 		return (1);
 	gettimeofday(&now, NULL);
@@ -19,7 +19,7 @@ static int	nap(t_phi **phi, int time)
 	struct timeval	now;
 	int				ret;
 
-	ret = pthread_mutex_lock((*phi)->abs);
+	ret = abs_lock(phi);
 	if (ret != 0)
 		return (1);
 	gettimeofday(&now, NULL);
@@ -27,7 +27,8 @@ static int	nap(t_phi **phi, int time)
 	pthread_mutex_unlock((*phi)->abs);
 	while (ret == 0)
 	{
-		ret = pthread_mutex_lock((*phi)->abs);
+		usleep(500);
+		ret = abs_lock(phi);
 		if (ret != 0)
 			return (1);
 		pthread_mutex_unlock((*phi)->abs);
@@ -40,7 +41,7 @@ static int	eat(t_phi **phi, int time)
 {
 	int	ret;
 
-	ret = pthread_mutex_lock((*phi)->abs);
+	ret = abs_lock(phi);
 	if (ret != 0)
 	{
 		pthread_mutex_unlock((*phi)->left);
@@ -53,7 +54,8 @@ static int	eat(t_phi **phi, int time)
 	(*phi)->nb_meal++;
 	while (ret == 0)
 	{
-		ret = pthread_mutex_lock((*phi)->abs);
+		usleep(500);
+		ret = abs_lock(phi);
 		if (ret != 0)
 		{
 			pthread_mutex_unlock((*phi)->left);
@@ -66,54 +68,28 @@ static int	eat(t_phi **phi, int time)
 	return (0);
 }
 
-static int	print_fork(t_phi *phi, int type)
-{
-	struct timeval	now;
-	int				ret;
-
-	ret = pthread_mutex_lock(phi->abs);
-	if (ret != 0)
-	{
-		if (type <= 2)
-			pthread_mutex_unlock(phi->left);
-		if (type == 2 || type == 3)
-			pthread_mutex_unlock(phi->right);
-		return (1);
-	}
-	gettimeofday(&now, NULL);
-	if (type <= 2)
-		printf("%ld %d has taken a fork\n", now.tv_usec, phi->id);
-	else
-		printf("%ld %d has put a fork back on the table\n", now.tv_usec, phi->id);
-	pthread_mutex_unlock(phi->abs);
-	return (0);
-}
-
 void	*life(void *arg)
 {
 	t_phi	*phi;
 
 	phi = (t_phi *)arg;
+	usleep(1000 * (phi->params[NP] - phi->id));
 	while (1)
 	{
-		pthread_mutex_lock(phi->left);
-		if (print_fork(phi, 1) != 0)
-			return (NULL);
-		pthread_mutex_lock(phi->right);
-		if (print_fork(phi, 2) != 0)
-			return (NULL);
+		if (fork_lock(&phi) != 0)
+			return (delone(&phi));
 		if (eat(&phi, phi->params[TE]) == 1)
-			return (NULL);
+			return (delone(&phi));
 		pthread_mutex_unlock(phi->left);
-		if (print_fork(phi, 3) != 0)
-			return (NULL);
+		if (print_fork(&phi, 3) != 0)
+			return (delone(&phi));
 		pthread_mutex_unlock(phi->right);
-		if (print_fork(phi, 4) != 0)
-			return (NULL);
+		if (print_fork(&phi, 4) != 0)
+			return (delone(&phi));
 		if (nap(&phi, phi->params[TS]) == 1)
-			return (NULL);
+			return (delone(&phi));
 		if (think(&phi) == 1)
-			return (NULL);
+			return (delone(&phi));
 	}
 	return (NULL);
 }

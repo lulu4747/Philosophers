@@ -13,18 +13,26 @@
 # define TS	3
 # define NE 4
 
+typedef struct s_frk
+{
+	pthread_mutex_t	*mtx;
+	struct s_frk	*next;
+}	t_frk;
+
 typedef struct s_phi
 {
 	int				id;
 	struct timeval	eat;
 	int				nb_meal;
 	int				state;
+	int				health;
 	int				*params;
 	pthread_t		tid;
 	pthread_mutex_t	*left;
 	pthread_mutex_t	*right;
 	pthread_mutex_t	*abs;
 	struct s_phi	*next;
+	struct s_phi	*prev;
 }	t_phi;
 
 int				parsing(int ac, char **av, int **params);
@@ -32,7 +40,13 @@ int				philosophy(int *params);
 void			*life(void *arg);
 void			*death(t_phi *phi);
 int				time_diff(struct timeval diff, int n);
+int				abs_lock(t_phi **phi);
+int				print_fork(t_phi **phi, int type);
+int				fork_lock(t_phi **phi);
+t_frk			*frk_builder(int n);
+void			frk_free(t_frk *frk);
 void			*philosophers_status(void *arg);
+void			*delone(t_phi **phi);
 pthread_mutex_t	*mtx_create(const pthread_mutexattr_t *restrict attr);
 pthread_mutex_t	*mtx_destroy(pthread_mutex_t *mtx);
 

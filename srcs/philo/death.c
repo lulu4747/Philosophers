@@ -1,22 +1,25 @@
 #include "philo.h"
 
-void	*death(t_phi *first)
+void	*delone(t_phi **phi)
 {
-	t_phi	*phi;
+	free((*phi));
+	return (NULL);
+}
+
+void	*death(t_phi *phi)
+{
+	t_phi	*first;
 	t_phi	*next;
 
-	if (first->abs != NULL)
-		first->abs = mtx_destroy(first->abs);
-	if (first->right != NULL)
-		first->right = mtx_destroy(first->right);
-	phi = first;
-	while (phi != NULL)
+	first = phi;
+	first->abs = mtx_destroy(first->abs);
+	phi = phi->next;
+	while (phi != NULL && phi != first)
 	{
 		next = phi->next;
-		if (phi->right != NULL)
-			phi->right = mtx_destroy(phi->right);
 		free(phi);
 		phi = next;
 	}
+	free(first);
 	return (NULL);
 }
