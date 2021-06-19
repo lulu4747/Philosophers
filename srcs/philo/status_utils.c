@@ -28,14 +28,14 @@ static void	*end(t_status **status, t_phi **phi, int bl)
 
 	abs = (*status)->abs;
 	pthread_mutex_lock(abs);
-	pthread_mutex_lock((*status)->state);
-	(*status)->closing = 1;
-	pthread_mutex_unlock((*status)->state);
 	if (bl == 1)
 	{
 		gettimeofday(&now, NULL);
 		printf("%d %d died\n", milliseconds(now), (*phi)->id);
 	}
+	pthread_mutex_lock((*status)->state);
+	(*status)->closing = 1;
+	pthread_mutex_unlock((*status)->state);
 	while (!((*phi)->health))
 	{
 		(*phi)->health = 1;

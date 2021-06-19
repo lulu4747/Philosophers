@@ -25,10 +25,16 @@ int	print_fork(t_phi **phi, int type)
 
 int	fork_lock(t_phi **phi)
 {
-	pthread_mutex_lock((*phi)->left);
+	if (!((*phi)->id % 2))
+		pthread_mutex_lock((*phi)->right);
+	else
+		pthread_mutex_lock((*phi)->left);
 	if (print_fork(phi, 1) != 0)
 		return (1);
-	pthread_mutex_lock((*phi)->right);
+	if (!((*phi)->id % 2))
+		pthread_mutex_lock((*phi)->left);
+	else
+		pthread_mutex_lock((*phi)->right);
 	if (print_fork(phi, 2) != 0)
 		return (1);
 	return (0);
