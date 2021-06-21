@@ -37,7 +37,7 @@ int parsing(int ac, char **av, int **params)
 	int	i;
 
 	if (ac < 5 || ac > 6)
-		return (print_err(NULL, 0));
+		return (err_print(NULL, 0));
 	*params = malloc(sizeof(int) * 5);
 	if (!(*params))
 		return (1);

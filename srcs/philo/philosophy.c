@@ -25,8 +25,7 @@ static t_phi	*philosophers_builder(int *params, t_frk *frk, pthread_mutex_t *abs
 	int		i;
 
 	i = 0;
-	if (params[NP] > 0)
-		first = birth(params, i, frk, abs);
+	first = birth(params, i, frk, abs);
 	if (!first)
 		return (NULL);
 	phi = first;
