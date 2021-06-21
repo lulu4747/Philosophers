@@ -14,6 +14,25 @@ static int	think(t_phi **phi)
 	return (0);
 }
 
+static int	waiting(t_phi **phi, int time, int mode)
+{
+	int	ret;
+
+	usleep(500);
+	ret = abs_lock(phi);
+	if (ret != 0)
+	{
+		if (!mode)
+		{
+			pthread_mutex_unlock((*phi)->left);
+			pthread_mutex_unlock((*phi)->right);
+		}
+		return (2);
+	}
+	pthread_mutex_unlock((*phi)->abs);
+	return (time_diff((*phi)->eat, time));
+}
+
 static int	nap(t_phi **phi, int time)
 {
 	struct timeval	now;
@@ -27,12 +46,9 @@ static int	nap(t_phi **phi, int time)
 	pthread_mutex_unlock((*phi)->abs);
 	while (ret == 0)
 	{
-		usleep(500);
-		ret = abs_lock(phi);
-		if (ret != 0)
+		ret = waiting(phi, time, 1);
+		if (ret == 2)
 			return (1);
-		pthread_mutex_unlock((*phi)->abs);
-		ret = time_diff(now, time);
 	}
 	return (0);
 }
@@ -54,16 +70,9 @@ static int	eat(t_phi **phi, int time)
 	(*phi)->nb_meal++;
 	while (ret == 0)
 	{
-		usleep(500);
-		ret = abs_lock(phi);
-		if (ret != 0)
-		{
-			pthread_mutex_unlock((*phi)->left);
-			pthread_mutex_unlock((*phi)->right);
+		ret = waiting(phi, time, 0);
+		if (ret == 2)
 			return (1);
-		}
-		pthread_mutex_unlock((*phi)->abs);
-		ret = time_diff((*phi)->eat, time);
 	}
 	return (0);
 }

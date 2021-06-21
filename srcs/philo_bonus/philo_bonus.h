@@ -13,7 +13,7 @@
 # define TS	3
 # define NE 4
 
-int parsing(int ac, char **av, int **params);
+int	parsing(int ac, char **av, int **params);
 int	philosophy(int *params);
 
 #endif

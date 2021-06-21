@@ -2,7 +2,7 @@
 
 int	main(int ac, char **av)
 {
-	int *params;
+	int	*params;
 
 	if (parsing(ac, av, &params) == 1)
 		return (1);

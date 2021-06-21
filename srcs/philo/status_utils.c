@@ -62,10 +62,10 @@ void	*philosophers_status(void *arg)
 		{
 			if (phi->nb_meal < phi->params[NE])
 				i = 0;
-			else 
+			else
 				i++;
 			if (i >= phi->params[NP])
-				return(end(status, &phi, 0));
+				return (end(status, &phi, 0));
 		}
 		phi = phi->next;
 	}

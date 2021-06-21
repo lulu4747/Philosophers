@@ -32,7 +32,7 @@ static int	save_parameter(char **av, int **params, int i)
 	return (0);
 }
 
-int parsing(int ac, char **av, int **params)
+int	parsing(int ac, char **av, int **params)
 {
 	int	i;
 

@@ -18,21 +18,21 @@ static t_phi	*birth(int *params, int id, t_frk *frk, pthread_mutex_t *abs)
 	return (phi);
 }
 
-static t_phi	*philosophers_builder(int *params, t_frk *frk, pthread_mutex_t *abs)
+static t_phi	*philosophers_builder(int *p, t_frk *frk, pthread_mutex_t *abs)
 {
 	t_phi	*first;
 	t_phi	*phi;
 	int		i;
 
 	i = 0;
-	first = birth(params, i, frk, abs);
+	first = birth(p, i, frk, abs);
 	if (!first)
 		return (NULL);
 	phi = first;
-	while (++i < params[NP])
+	while (++i < p[NP])
 	{
 		frk = frk->next;
-		phi->next = birth(params, i, frk, abs);
+		phi->next = birth(p, i, frk, abs);
 		if (!(phi->next))
 			return (death(first));
 		phi->next->prev = phi;
@@ -88,7 +88,6 @@ static void	phi_launcher(t_status *status, t_phi *phi, int *params)
 			phi = phi->next;
 		}
 		pthread_mutex_unlock(status->state);
-		usleep(500);
 	}
 	if (i < params[NP])
 	{
