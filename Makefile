@@ -8,6 +8,7 @@ SRCS			+= mutex_utils.c
 SRCS			+= parsing.c
 SRCS			+= philosophy.c
 SRCS			+= status_utils.c
+SRCS			+= time_utils.c
 
 OBJ_DIR			= ./srcs/obj/
 PHILO_DIR		= ./srcs/philo/

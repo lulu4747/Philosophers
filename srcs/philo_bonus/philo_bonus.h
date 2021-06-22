@@ -17,6 +17,9 @@
 # include <stdlib.h>
 # include <pthread.h>
 # include <sys/time.h>
+# include <semaphore.h>
+# include <fcntl.h>
+# include <sys/stat.h>
 # include "../libft/libft.h"
 
 # define NP	0

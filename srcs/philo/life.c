@@ -14,14 +14,12 @@
 
 static int	think(t_phi **phi)
 {
-	struct timeval	now;
 	int				ret;
 
 	ret = abs_lock(phi);
 	if (ret != 0)
 		return (1);
-	gettimeofday(&now, NULL);
-	printf("%d %d is thinking\n", milliseconds(now), (*phi)->id);
+	printf("%d %d is thinking\n", ts_ms((*phi)->start), (*phi)->id);
 	pthread_mutex_unlock((*phi)->abs);
 	return (0);
 }
@@ -47,14 +45,12 @@ static int	waiting(t_phi **phi, int time, int mode)
 
 static int	nap(t_phi **phi, int time)
 {
-	struct timeval	now;
 	int				ret;
 
 	ret = abs_lock(phi);
 	if (ret != 0)
 		return (1);
-	gettimeofday(&now, NULL);
-	printf("%d %d is sleeping\n", milliseconds(now), (*phi)->id);
+	printf("%d %d is sleeping\n", ts_ms((*phi)->start), (*phi)->id);
 	pthread_mutex_unlock((*phi)->abs);
 	while (ret == 0)
 	{
@@ -77,7 +73,7 @@ static int	eat(t_phi **phi, int time)
 		return (1);
 	}
 	gettimeofday(&((*phi)->eat), NULL);
-	printf("%d %d is eating\n", milliseconds((*phi)->eat), (*phi)->id);
+	printf("%d %d is eating\n", ts_ms((*phi)->start), (*phi)->id);
 	pthread_mutex_unlock((*phi)->abs);
 	(*phi)->nb_meal++;
 	while (ret == 0)

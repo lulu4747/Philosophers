@@ -14,6 +14,15 @@
 
 int	philosophy(int *params)
 {
+	sem_t	*sem_forks;
+
+	forks = malloc(sizeof(sem_t));
+	if (!forks)
+	{
+		free(params);
+		return (1);
+	}
+	sem_forks = sem_open("forks", O_CREAT, 0644, params[NP]);
 	free(params);
 	return (0);
 }

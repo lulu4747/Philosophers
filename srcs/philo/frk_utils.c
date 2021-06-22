@@ -14,7 +14,6 @@
 
 int	print_fork(t_phi **phi, int type)
 {
-	struct timeval	now;
 	int				ret;
 
 	ret = abs_lock(phi);
@@ -26,8 +25,7 @@ int	print_fork(t_phi **phi, int type)
 			pthread_mutex_unlock((*phi)->right);
 		return (1);
 	}
-	gettimeofday(&now, NULL);
-	ret = milliseconds(now);
+	ret = ts_ms((*phi)->start);
 	if (type <= 2)
 		printf("%d %d has taken a fork\n", ret, (*phi)->id);
 	else

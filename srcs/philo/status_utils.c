@@ -12,48 +12,18 @@
 
 #include "philo.h"
 
-int	milliseconds(struct timeval time)
-{
-	int	ret;
-
-	ret = (int)(time.tv_sec * 1000);
-	ret += (int)(time.tv_usec / 1000);
-	return (ret);
-}
-
-int	time_diff(struct timeval diff, int n)
-{
-	struct timeval	now;
-	int				ms_diff;
-
-	gettimeofday(&now, NULL);
-	ms_diff = milliseconds(now) - milliseconds(diff);
-	if (ms_diff >= n)
-		return (1);
-	return (0);
-}
-
 static void	*end(t_status **status, t_phi **phi, int bl)
 {
 	pthread_mutex_t	*abs;
-	struct timeval	now;
 
 	abs = (*status)->abs;
-	pthread_mutex_lock(abs);
-	if (bl == 1)
-	{
-		gettimeofday(&now, NULL);
-		printf("%d %d died\n", milliseconds(now), (*phi)->id);
-	}
 	pthread_mutex_lock((*status)->state);
 	(*status)->closing = 1;
 	pthread_mutex_unlock((*status)->state);
-	while (!((*phi)->health))
-	{
-		(*phi)->health = 1;
-		*phi = (*phi)->next;
-	}
-	pthread_mutex_unlock(abs);
+	pthread_mutex_lock(abs);
+	if (bl == 1)
+		printf("%d %d died\n", ts_ms((*phi)->start), (*phi)->id);
+	pthread_mutex_destroy(abs);
 	return (NULL);
 }
 

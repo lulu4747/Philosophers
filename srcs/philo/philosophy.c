@@ -24,9 +24,8 @@ static t_phi	*birth(int *params, int id, t_frk *frk, pthread_mutex_t *abs)
 	phi->right = frk->next->mtx;
 	phi->id = id + 1;
 	phi->nb_meal = 0;
-	gettimeofday(&(phi->eat), NULL);
 	phi->params = params;
-	phi->health = 0;
+	gettimeofday(&(phi->eat), NULL);
 	return (phi);
 }
 
@@ -40,6 +39,7 @@ static t_phi	*philosophers_builder(int *p, t_frk *frk, pthread_mutex_t *abs)
 	first = birth(p, i, frk, abs);
 	if (!first)
 		return (NULL);
+	gettimeofday(&(first->start), NULL);
 	phi = first;
 	while (++i < p[NP])
 	{
@@ -49,6 +49,7 @@ static t_phi	*philosophers_builder(int *p, t_frk *frk, pthread_mutex_t *abs)
 			return (death(first));
 		phi->next->prev = phi;
 		phi = phi->next;
+		phi->start = first->start;
 	}
 	phi->next = first;
 	first->prev = phi;

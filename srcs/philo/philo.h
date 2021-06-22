@@ -34,9 +34,9 @@ typedef struct s_frk
 typedef struct s_phi
 {
 	int				id;
+	struct timeval	start;
 	struct timeval	eat;
 	int				nb_meal;
-	int				health;
 	int				*params;
 	pthread_t		tid;
 	pthread_mutex_t	*left;
@@ -62,6 +62,7 @@ void			*life(void *arg);
 void			*death(t_phi *phi);
 int				milliseconds(struct timeval time);
 int				time_diff(struct timeval diff, int n);
+int				ts_ms(struct timeval start);
 int				abs_lock(t_phi **phi);
 int				print_fork(t_phi **phi, int type);
 int				fork_lock(t_phi **phi);
