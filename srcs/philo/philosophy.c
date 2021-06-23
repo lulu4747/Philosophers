@@ -29,7 +29,8 @@ static t_phi	*birth(int *params, int id, t_frk *frk, pthread_mutex_t *abs)
 	return (phi);
 }
 
-static t_phi	*philosophers_builder(int *p, t_frk *frk, pthread_mutex_t *abs, pthread_mutex_t *state)
+static t_phi	*philosophers_builder(int *p, t_frk *frk,
+	pthread_mutex_t *abs, 	pthread_mutex_t *state)
 {
 	t_phi	*first;
 	t_phi	*phi;
@@ -48,21 +49,17 @@ static t_phi	*philosophers_builder(int *p, t_frk *frk, pthread_mutex_t *abs, pth
 		phi->next = birth(p, i, frk, abs);
 		if (!(phi->next))
 			return (death(first));
-		phi->next->prev = phi;
 		phi = phi->next;
 		phi->start = first->start;
 		phi->state = first->state;
 	}
 	phi->next = first;
-	first->prev = phi;
 	phi->right = first->left;
 	return (first);
 }
 
-t_status	*status_builder(int *params)
+t_status	*status_builder(int *params, t_status *status)
 {
-	t_status	*status;
-
 	status = malloc(sizeof(t_status));
 	if (!status)
 	{
@@ -82,7 +79,8 @@ t_status	*status_builder(int *params)
 	status->frk = frk_builder(params[NP]);
 	if (!status->frk)
 		return (status_clean(status));
-	status->phi = philosophers_builder(params, status->frk, status->abs, status->state);
+	status->phi = philosophers_builder(params, status->frk,
+			status->abs, status->state);
 	if (!status->phi)
 		return (status_clean(status));
 	return (status);
@@ -120,7 +118,8 @@ int	philosophy(int *params)
 	int				i;
 
 	i = -1;
-	status = status_builder(params);
+	status = NULL;
+	status = status_builder(params, status);
 	if (!status)
 	{
 		free(params);

@@ -44,7 +44,6 @@ typedef struct s_phi
 	pthread_mutex_t	*state;
 	pthread_mutex_t	*abs;
 	struct s_phi	*next;
-	struct s_phi	*prev;
 }	t_phi;
 
 typedef struct s_status
