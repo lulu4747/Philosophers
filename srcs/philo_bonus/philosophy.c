@@ -12,17 +12,22 @@
 
 #include "philo_bonus.h"
 
+pid_t	processes_launcher(int *params)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid < 0)
+		return (pid);
+	if (pid == 0)
+		
+}
+
 int	philosophy(int *params)
 {
-	sem_t	*sem_forks;
+	sem_t	*sem_state;
 
-	forks = malloc(sizeof(sem_t));
-	if (!forks)
-	{
-		free(params);
-		return (1);
-	}
-	sem_forks = sem_open("forks", O_CREAT, 0644, params[NP]);
+	sem_state = sem_open("state", O_CREAT, 0644, 0);
 	free(params);
 	return (0);
 }

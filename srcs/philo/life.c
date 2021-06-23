@@ -17,6 +17,7 @@ static int	think(t_phi **phi)
 	int				ret;
 
 	ret = abs_lock(phi);
+	pthread_mutex_unlock((*phi)->state);
 	if (ret != 0)
 		return (1);
 	printf("%d %d is thinking\n", ts_ms((*phi)->start), (*phi)->id);

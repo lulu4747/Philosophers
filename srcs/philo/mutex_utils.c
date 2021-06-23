@@ -14,6 +14,8 @@
 
 int	abs_lock(t_phi **phi)
 {
+	pthread_mutex_lock((*phi)->state);
+	pthread_mutex_unlock((*phi)->state);
 	if (pthread_mutex_lock((*phi)->abs) == 0)
 		return (0);
 	return (1);

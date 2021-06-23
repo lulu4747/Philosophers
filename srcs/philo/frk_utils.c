@@ -57,12 +57,14 @@ void	frk_free(t_frk *frk)
 	t_frk	*next;
 
 	first = frk;
-	first->mtx = mtx_destroy(first->mtx);
+	if (first->mtx != NULL)
+		first->mtx = mtx_destroy(first->mtx);
 	frk = frk->next;
 	while (frk != NULL && frk != first)
 	{
 		next = frk->next;
-		frk->mtx = mtx_destroy(frk->mtx);
+		if (frk->mtx != NULL)
+			frk->mtx = mtx_destroy(frk->mtx);
 		free(frk);
 		frk = next;
 	}
