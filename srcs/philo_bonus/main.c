@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lfourage <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 19:37:22 by lfourage          #+#    #+#             */
-/*   Updated: 2021/06/21 19:37:24 by lfourage         ###   ########lyon.fr   */
+/*   Updated: 2021/06/25 23:35:21 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	main(int ac, char **av)
 {
-	int	*params;
+	t_param	param;
 
-	if (parsing(ac, av, &params) == 1)
+	if (parsing(ac, av, &param) == 1)
 		return (1);
-	return (philosophy(params));
+	return (philosophy(param));
 }

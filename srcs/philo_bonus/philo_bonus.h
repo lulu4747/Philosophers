@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lfourage <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 19:37:35 by lfourage          #+#    #+#             */
-/*   Updated: 2021/06/21 19:37:36 by lfourage         ###   ########lyon.fr   */
+/*   Updated: 2021/06/25 23:51:54 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@
 # include <sys/time.h>
 # include <semaphore.h>
 # include <fcntl.h>
-# include <sys/stat.h>
+# include <sys/stat.h>       
+# include <sys/types.h>
+# include <signal.h>
+# include <sys/wait.h>
 # include "../libft/libft.h"
 
 # define NP	0
@@ -28,7 +31,30 @@
 # define TS	3
 # define NE 4
 
-int	parsing(int ac, char **av, int **params);
-int	philosophy(int *params);
+typedef struct s_param
+{
+	int	np;
+	int	ttd;
+	int	tte;
+	int	tts;
+	int	ne;
+}	t_param;
+
+typedef	struct	s_phi
+{
+	int				id;
+	struct timeval	start;
+	struct timeval	eat;
+	t_param			param;
+	sem_t			*forks;
+	sem_t			*abs;
+}	t_phi;
+
+int		parsing(int ac, char **av, t_param *params);
+int		philosophy(t_param param);
+int		milliseconds(struct timeval time);
+int		time_diff(struct timeval diff, int n);
+int		ts_ms(struct timeval start);
+void	life(t_phi phi);
 
 #endif

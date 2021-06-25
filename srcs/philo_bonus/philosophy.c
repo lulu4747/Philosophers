@@ -3,31 +3,53 @@
 /*                                                        :::      ::::::::   */
 /*   philosophy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lfourage <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 19:37:42 by lfourage          #+#    #+#             */
-/*   Updated: 2021/06/21 19:37:44 by lfourage         ###   ########lyon.fr   */
+/*   Updated: 2021/06/26 00:31:07 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-pid_t	processes_launcher(int *params)
+static void	destroy_all(int n, pid_t *tab)
 {
-	pid_t	pid;
-
-	pid = fork();
-	if (pid < 0)
-		return (pid);
-	if (pid == 0)
-		
+	while (--n > 0)
+		kill(tab[n - 1], SIGKILL);
 }
 
-int	philosophy(int *params)
+static int	processes(t_phi phi)
 {
-	sem_t	*sem_state;
+	pid_t	pid;
+	pid_t	tab[200];
 
-	sem_state = sem_open("state", O_CREAT, 0644, 0);
-	free(params);
+	while (++phi.id <= phi.param.np)
+	{
+		pid = fork();
+		if (pid < 0)
+		{
+			destroy_all(phi.id, tab);
+			return (1);
+		}
+		if (pid == 0)
+			life(phi);
+		if (pid != 0)
+			tab[phi.id - 1] = pid;
+	}
+	waitpid(-1, NULL, 0);
+	destroy_all(phi.id, tab);
 	return (0);
+}
+
+int	philosophy(t_param	param)
+{
+	t_phi	phi;
+
+	phi.id = 0;
+	phi.forks = sem_open("forks", O_CREAT | O_EXCL, 0644, param.np);
+	phi.abs = sem_open("abs", O_CREAT | O_EXCL, 0644, 1);
+	phi.param = param;
+	gettimeofday(&phi.start, NULL);
+	phi.eat = phi.start;
+	return (processes(phi));
 }

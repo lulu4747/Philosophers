@@ -49,9 +49,11 @@ fclean:
 
 NAME_BONUS		= philo_bonus
 
-SRCS_BONUS		= main.c
+SRCS_BONUS		= life.c
+SRCS_BONUS		+= main.c
 SRCS_BONUS		+= parsing.c
 SRCS_BONUS		+= philosophy.c
+SRCS_BONUS		+= time_utils.c
 
 BONUS_DIR		= ./srcs/philo_bonus/
 OBJ_DIR_BONUS	= ./srcs/obj_bonus/
