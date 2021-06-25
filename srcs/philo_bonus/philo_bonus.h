@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 19:37:35 by lfourage          #+#    #+#             */
-/*   Updated: 2021/06/25 23:51:54 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/26 00:49:28 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef	struct	s_phi
 	t_param			param;
 	sem_t			*forks;
 	sem_t			*abs;
+	sem_t			*die;
 }	t_phi;
 
 int		parsing(int ac, char **av, t_param *params);

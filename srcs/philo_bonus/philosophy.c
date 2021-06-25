@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 19:37:42 by lfourage          #+#    #+#             */
-/*   Updated: 2021/06/26 00:31:07 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/26 00:51:44 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	processes(t_phi phi)
 		if (pid != 0)
 			tab[phi.id - 1] = pid;
 	}
-	waitpid(-1, NULL, 0);
+	sem_wait(phi.die);
 	destroy_all(phi.id, tab);
 	return (0);
 }
@@ -48,6 +48,7 @@ int	philosophy(t_param	param)
 	phi.id = 0;
 	phi.forks = sem_open("forks", O_CREAT | O_EXCL, 0644, param.np);
 	phi.abs = sem_open("abs", O_CREAT | O_EXCL, 0644, 1);
+	phi.die = sem_open("die", O_CREAT | O_EXCL, 0644, 0);
 	phi.param = param;
 	gettimeofday(&phi.start, NULL);
 	phi.eat = phi.start;
