@@ -28,8 +28,6 @@ int	print_fork(t_phi **phi, int type)
 	ret = ts_ms((*phi)->start);
 	if (type <= 2)
 		printf("%d %d has taken a fork\n", ret, (*phi)->id);
-	else
-		printf("%d %d has put a fork back on the table\n", ret, (*phi)->id);
 	pthread_mutex_unlock((*phi)->abs);
 	return (0);
 }
