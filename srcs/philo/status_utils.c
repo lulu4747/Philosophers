@@ -39,7 +39,7 @@ void	*philosophers_status(void *arg)
 	phi = (*status)->phi;
 	while (1)
 	{
-		if (time_diff(phi->eat, phi->params[TD]) == 1)
+		if (time_diff(phi->eat, phi->params[TD]))
 			return (end(status, &phi, 1));
 		if (phi->params[NE] != -1)
 		{

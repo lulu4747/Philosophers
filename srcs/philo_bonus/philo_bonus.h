@@ -40,15 +40,18 @@ typedef struct s_param
 	int	ne;
 }	t_param;
 
-typedef	struct	s_phi
+typedef struct s_phi
 {
 	int				id;
+	pthread_t		tid;
+	int				nb_meal;
 	struct timeval	start;
 	struct timeval	eat;
 	t_param			param;
 	sem_t			*forks;
 	sem_t			*abs;
 	sem_t			*die;
+	sem_t			*ne_sem;
 }	t_phi;
 
 int		parsing(int ac, char **av, t_param *params);
@@ -56,6 +59,8 @@ int		philosophy(t_param param);
 int		milliseconds(struct timeval time);
 int		time_diff(struct timeval diff, int n);
 int		ts_ms(struct timeval start);
-void	life(t_phi phi);
+void	process_print(t_phi *phi, char *str);
+void	*status_monitor(void *arg);
+void	life(t_phi *phi);
 
 #endif

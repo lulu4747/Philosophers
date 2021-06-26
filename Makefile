@@ -53,6 +53,8 @@ SRCS_BONUS		= life.c
 SRCS_BONUS		+= main.c
 SRCS_BONUS		+= parsing.c
 SRCS_BONUS		+= philosophy.c
+SRCS_BONUS		+= process_utils.c
+SRCS_BONUS		+= status_monitor.c
 SRCS_BONUS		+= time_utils.c
 
 BONUS_DIR		= ./srcs/philo_bonus/

@@ -25,7 +25,7 @@ static int	think(t_phi **phi)
 	return (0);
 }
 
-static int	waiting(t_phi **phi, int time, int mode)
+static int	waiting(t_phi **phi, struct timeval	timevl, int time, int mode)
 {
 	int	ret;
 
@@ -41,13 +41,15 @@ static int	waiting(t_phi **phi, int time, int mode)
 		return (2);
 	}
 	pthread_mutex_unlock((*phi)->abs);
-	return (time_diff((*phi)->eat, time));
+	return (time_diff(timevl, time));
 }
 
 static int	nap(t_phi **phi, int time)
 {
 	int				ret;
+	struct timeval	timevl;
 
+	gettimeofday(&timevl, NULL);
 	ret = abs_lock(phi);
 	if (ret != 0)
 		return (1);
@@ -55,7 +57,7 @@ static int	nap(t_phi **phi, int time)
 	pthread_mutex_unlock((*phi)->abs);
 	while (ret == 0)
 	{
-		ret = waiting(phi, time, 1);
+		ret = waiting(phi, timevl, time, 1);
 		if (ret == 2)
 			return (1);
 	}
@@ -79,7 +81,7 @@ static int	eat(t_phi **phi, int time)
 	(*phi)->nb_meal++;
 	while (ret == 0)
 	{
-		ret = waiting(phi, time, 0);
+		ret = waiting(phi, (*phi)->eat, time, 0);
 		if (ret == 2)
 			return (1);
 	}
