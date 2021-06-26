@@ -6,14 +6,18 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 19:37:42 by lfourage          #+#    #+#             */
-/*   Updated: 2021/06/26 00:51:44 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/26 02:03:40 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-static void	destroy_all(int n, pid_t *tab)
+static void	destroy(int n, pid_t *tab)
 {
+	usleep(100 * n);
+	sem_unlink("forks");
+	sem_unlink("abs");
+	sem_unlink("die");
 	while (--n > 0)
 		kill(tab[n - 1], SIGKILL);
 }
@@ -28,7 +32,7 @@ static int	processes(t_phi phi)
 		pid = fork();
 		if (pid < 0)
 		{
-			destroy_all(phi.id, tab);
+			destroy(phi.id, tab);
 			return (1);
 		}
 		if (pid == 0)
@@ -37,7 +41,7 @@ static int	processes(t_phi phi)
 			tab[phi.id - 1] = pid;
 	}
 	sem_wait(phi.die);
-	destroy_all(phi.id, tab);
+	destroy(phi.id, tab);
 	return (0);
 }
 
