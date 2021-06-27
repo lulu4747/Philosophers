@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 19:37:35 by lfourage          #+#    #+#             */
-/*   Updated: 2021/06/26 00:49:28 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/27 22:31:45 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,17 @@ typedef struct s_param
 typedef struct s_phi
 {
 	int				id;
-	pthread_t		tid;
+	pthread_t		tid_end;
+	pthread_t		tid_status;
+	int				ntrd;
+	int				closing;
 	int				nb_meal;
 	struct timeval	start;
 	struct timeval	eat;
 	t_param			param;
 	sem_t			*forks;
 	sem_t			*abs;
+	sem_t			*death_print;
 	sem_t			*die;
 	sem_t			*ne_sem;
 }	t_phi;
@@ -59,6 +63,8 @@ int		philosophy(t_param param);
 int		milliseconds(struct timeval time);
 int		time_diff(struct timeval diff, int n);
 int		ts_ms(struct timeval start);
+void	*clean_exit(t_phi *phi);
+void	*status_end(void *arg);
 void	process_print(t_phi *phi, char *str);
 void	*status_monitor(void *arg);
 void	life(t_phi *phi);
