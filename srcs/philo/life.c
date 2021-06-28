@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   life.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lfourage <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 19:35:51 by lfourage          #+#    #+#             */
-/*   Updated: 2021/06/21 19:35:53 by lfourage         ###   ########lyon.fr   */
+/*   Updated: 2021/06/29 00:23:54 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	waiting(t_phi **phi, struct timeval	timevl, int time, int mode)
 {
 	int	ret;
 
-	usleep(500);
+	usleep(10);
 	ret = abs_lock(phi);
 	if (ret != 0)
 	{
