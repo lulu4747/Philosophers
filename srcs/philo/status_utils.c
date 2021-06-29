@@ -18,11 +18,8 @@ static void	*end(t_status **status, t_phi **phi, int bl)
 
 	abs = (*status)->abs;
 	pthread_mutex_lock((*status)->state);
-	(*status)->closing = 1;
-	pthread_mutex_lock(abs);
 	if (bl == 1)
 		printf("%d %d died\n", ts_ms((*phi)->start), (*phi)->id);
-	pthread_mutex_unlock(abs);
 	(*status)->abs = mtx_destroy((*status)->abs);
 	pthread_mutex_unlock((*status)->state);
 	return (NULL);

@@ -49,7 +49,6 @@ typedef struct s_phi
 typedef struct s_status
 {
 	pthread_t		tid;
-	int				closing;
 	t_frk			*frk;
 	t_phi			*phi;
 	pthread_mutex_t	*abs;
@@ -68,6 +67,7 @@ int				print_fork(t_phi **phi, int type);
 int				fork_lock(t_phi **phi);
 t_frk			*frk_builder(int n);
 void			frk_free(t_frk *frk);
+t_status		*status_builder(int *params, t_status *status);
 void			*philosophers_status(void *arg);
 t_status		*status_clean(t_status *status);
 void			*delone(t_phi **phi);

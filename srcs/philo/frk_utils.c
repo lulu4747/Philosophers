@@ -19,10 +19,8 @@ int	print_fork(t_phi **phi, int type)
 	ret = abs_lock(phi);
 	if (ret != 0)
 	{
-		if (type <= 2)
-			pthread_mutex_unlock((*phi)->left);
-		if (type == 2 || type == 3)
-			pthread_mutex_unlock((*phi)->right);
+		pthread_mutex_unlock((*phi)->left);
+		pthread_mutex_unlock((*phi)->right);
 		return (1);
 	}
 	ret = ts_ms((*phi)->start);

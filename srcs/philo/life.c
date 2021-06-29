@@ -17,7 +17,6 @@ static int	think(t_phi **phi)
 	int				ret;
 
 	ret = abs_lock(phi);
-	pthread_mutex_unlock((*phi)->state);
 	if (ret != 0)
 		return (1);
 	printf("%d %d is thinking\n", ts_ms((*phi)->start), (*phi)->id);
@@ -100,11 +99,7 @@ void	*life(void *arg)
 		if (eat(&phi, phi->params[TE]) == 1)
 			return (delone(&phi));
 		pthread_mutex_unlock(phi->left);
-		if (print_fork(&phi, 3) != 0)
-			return (delone(&phi));
 		pthread_mutex_unlock(phi->right);
-		if (print_fork(&phi, 4) != 0)
-			return (delone(&phi));
 		if (nap(&phi, phi->params[TS]) == 1)
 			return (delone(&phi));
 		if (think(&phi) == 1)

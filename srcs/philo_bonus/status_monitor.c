@@ -13,10 +13,9 @@ void	*status_monitor(void *arg)
 		if (time_diff(phi->eat, phi->param.ttd))
 		{
 			process_print(phi, "died", NULL);
-			clean_exit(phi);
+			return (clean_exit(phi));
 		}
 		if ((phi->param.ne != -1 && phi->nb_meal >= phi->param.ne && !i++))
-			clean_exit(phi);
+			sem_post(phi->ne_sem);
 	}
-	return (clean_exit(phi));
 }

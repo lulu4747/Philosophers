@@ -35,6 +35,7 @@ static void	life_cycle(t_phi *phi)
 void	life(t_phi *phi)
 {
 	pthread_create(&(phi->tid), NULL, &status_monitor, (void *)phi);
+	pthread_detach(phi->tid);
 	while (1)
 		life_cycle(phi);
 }

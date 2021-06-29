@@ -14,7 +14,6 @@
 
 static int	destroy(t_phi phi, pid_t *tab, int r)
 {
-	phi.id--;
 	while (--phi.id >= 0)
 		kill(tab[phi.id], SIGKILL);
 	sem_unlink("prio");
@@ -41,7 +40,7 @@ static int	meals_counter(t_phi phi, int *pid, pid_t *tab)
 		phi.id = 0;
 		while (--phi.param.np >= 0)
 			sem_wait(phi.ne_sem);
-		sem_wait(phi.abs);
+		sem_wait(phi.death_print);
 		clean_exit(&phi);
 	}
 	return (0);

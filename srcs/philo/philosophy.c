@@ -66,7 +66,6 @@ t_status	*status_builder(int *params, t_status *status)
 		free(params);
 		return (NULL);
 	}
-	status->closing = 0;
 	status->state = NULL;
 	status->phi = NULL;
 	status->frk = NULL;
@@ -91,23 +90,12 @@ static void	phi_launcher(t_status *status, t_phi *phi, int *params)
 	int	i;
 
 	i = 0;
-	while (++i <= params[NP] && !status->closing)
+	while (++i <= params[NP])
 	{
 		pthread_mutex_lock(status->state);
-		if (!status->closing)
-		{
-			pthread_create(&(phi->tid), NULL, &life, (void *)phi);
-			phi = phi->next;
-		}
+		pthread_create(&(phi->tid), NULL, &life, (void *)phi);
+		phi = phi->next;
 		pthread_mutex_unlock(status->state);
-	}
-	if (i < params[NP])
-	{
-		status->phi = phi;
-		while (++i <= params[NP])
-			phi = phi->next;
-		phi->next = NULL;
-		death(status->phi);
 	}
 }
 
@@ -126,8 +114,8 @@ int	philosophy(int *params)
 		return (1);
 	}
 	phi = status->phi;
-	pthread_create(&status->tid, NULL, &philosophers_status, (void *)(&status));
 	phi_launcher(status, phi, params);
+	pthread_create(&status->tid, NULL, &philosophers_status, (void *)(&status));
 	pthread_join(status->tid, NULL);
 	while (++i <= params[NP])
 	{

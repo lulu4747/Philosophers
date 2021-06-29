@@ -60,9 +60,9 @@ int		philosophy(t_param param);
 int		milliseconds(struct timeval time);
 int		time_diff(struct timeval diff, int n);
 int		ts_ms(struct timeval start);
-void	*clean_exit(t_phi *phi);
-void	process_print(t_phi *phi, char *str, struct timeval *tv);
-void	*status_monitor(void *arg);
 void	life(t_phi *phi);
+void	*process_print(t_phi *phi, char *str, struct timeval *tv);
+void	*status_monitor(void *arg);
+void	*clean_exit(t_phi *phi);
 
 #endif
