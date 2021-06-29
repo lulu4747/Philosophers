@@ -6,13 +6,13 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 19:37:42 by lfourage          #+#    #+#             */
-/*   Updated: 2021/06/29 00:06:40 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/29 09:31:16 by lfourage         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-static void	destroy(t_phi phi, pid_t *tab)
+static int	destroy(t_phi phi, pid_t *tab, int r)
 {
 	phi.id--;
 	while (--phi.id >= 0)
@@ -28,16 +28,14 @@ static void	destroy(t_phi phi, pid_t *tab)
 	sem_close(phi.death_print);
 	if (phi.ne_sem)
 		sem_close(phi.ne_sem);
+	return (r);
 }
 
 static int	meals_counter(t_phi phi, int *pid, pid_t *tab)
 {
 	*pid = fork();
 	if (*pid < 0)
-	{
-		destroy(phi, tab);
-		return (1);
-	}
+		return (destroy(phi, tab, 1));
 	if (*pid == 0)
 	{
 		phi.id = 0;
@@ -58,10 +56,7 @@ static int	processes(t_phi phi)
 	{
 		pid = fork();
 		if (pid < 0)
-		{
-			destroy(phi, tab);
-			return (1);
-		}
+			return (destroy(phi, tab, 1));
 		if (pid == 0)
 			life(&phi);
 		else
@@ -76,8 +71,7 @@ static int	processes(t_phi phi)
 	waitpid(0, NULL, 0);
 	if (phi.param.ne == -1)
 		phi.id--;
-	destroy(phi, tab);
-	return (0);
+	return (destroy(phi, tab, 0));
 }
 
 static int	semaphores_init(t_phi *phi)
