@@ -34,8 +34,8 @@ typedef struct s_frk
 typedef struct s_phi
 {
 	int				id;
-	struct timeval	start;
-	struct timeval	eat;
+	int				even;
+	int				start;
 	int				ttd;
 	int				tte;
 	int				tts;
@@ -45,7 +45,6 @@ typedef struct s_phi
 	pthread_t		tid;
 	pthread_mutex_t	*left;
 	pthread_mutex_t	*right;
-	pthread_mutex_t	*state;
 	pthread_mutex_t	*abs;
 	struct s_phi	*next;
 }	t_phi;
@@ -64,10 +63,9 @@ int				philosophy(int *params);
 void			*life(void *arg);
 void			*death(t_phi *phi);
 int				milliseconds(struct timeval time);
-int				time_diff(int n, struct timeval start);
-int				ts_ms(struct timeval start);
+int				time_diff(int n, int start);
+int				ts_ms(int start);
 int				abs_lock(t_phi **phi);
-int				print_fork(t_phi **phi, int type);
 int				fork_lock(t_phi **phi);
 t_frk			*frk_builder(int n);
 void			frk_free(t_frk *frk);

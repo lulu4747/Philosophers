@@ -12,9 +12,9 @@
 
 #include "philo.h"
 
-int	print_fork(t_phi **phi, int type)
+static int	print_fork(t_phi **phi)
 {
-	int				ret;
+	int	ret;
 
 	ret = abs_lock(phi);
 	if (ret != 0)
@@ -23,28 +23,28 @@ int	print_fork(t_phi **phi, int type)
 		pthread_mutex_unlock((*phi)->right);
 		return (1);
 	}
-	ret = ts_ms((*phi)->start);
-	if (type <= 2)
-		printf("%d %d has taken a fork\n", ret, (*phi)->id);
+	printf("%d %d has taken a fork\n", ts_ms((*phi)->start), (*phi)->id);
 	pthread_mutex_unlock((*phi)->abs);
 	return (0);
 }
 
 int	fork_lock(t_phi **phi)
 {
-	if (!((*phi)->id % 2))
+	if ((*phi)->even)
 		pthread_mutex_lock((*phi)->right);
 	else
 		pthread_mutex_lock((*phi)->left);
-	if (print_fork(phi, 1) != 0)
+	if (print_fork(phi))
 		return (1);
-	if (!((*phi)->id % 2))
+	if ((*phi)->even)
+	{
+		if (!(*phi)->left)
+			return (1);
 		pthread_mutex_lock((*phi)->left);
+	}
 	else
 		pthread_mutex_lock((*phi)->right);
-	if (print_fork(phi, 2) != 0)
-		return (1);
-	return (0);
+	return (print_fork(phi));
 }
 
 void	frk_free(t_frk *frk)

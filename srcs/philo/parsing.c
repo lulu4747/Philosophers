@@ -26,8 +26,6 @@ static int	err_print(int **params, int err_code)
 		ft_putstr_fd("Error: Overflow\n", 2);
 	if (err_code == 3)
 		ft_putstr_fd("Error: Negative argument\n", 2);
-	if (err_code == 4)
-		ft_putstr_fd("Error: number_of_philosophers <= 1\n", 2);
 	return (1);
 }
 
@@ -39,8 +37,6 @@ static int	save_parameter(char **av, int **params, int i)
 		return (err_print(params, 2));
 	if ((*params)[i] < 0)
 		return (err_print(params, 3));
-	if (i == NP && (*params)[i] <= 1)
-		return (err_print(params, 4));
 	return (0);
 }
 

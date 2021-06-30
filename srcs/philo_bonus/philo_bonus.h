@@ -60,6 +60,7 @@ typedef struct s_phi
 
 int		parsing(int ac, char **av, t_param *params);
 int		philosophy(t_param param);
+int		processes(t_phi phi);
 int		milliseconds(struct timeval time);
 int		time_diff(int n, struct timeval start);
 int		ts_ms(struct timeval start);

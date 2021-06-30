@@ -14,14 +14,12 @@
 
 int	abs_lock(t_phi **phi)
 {
-	pthread_mutex_lock((*phi)->state);
+	pthread_mutex_lock((*phi)->abs);
 	if ((*phi)->closing)
 	{
-		pthread_mutex_unlock((*phi)->state);
+		pthread_mutex_unlock((*phi)->abs);
 		return (1);
 	}
-	pthread_mutex_lock((*phi)->abs);
-	pthread_mutex_unlock((*phi)->state);
 	return (0);
 }
 

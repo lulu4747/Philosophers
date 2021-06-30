@@ -23,8 +23,6 @@ static int	err_print(int err_code)
 	if (err_code == 3)
 		ft_putstr_fd("Error: Negative argument\n", 2);
 	if (err_code == 4)
-		ft_putstr_fd("Error: number_of_philosophers <= 1\n", 2);
-	if (err_code == 5)
 		ft_putstr_fd("Error: number_of_philosophers > 200\n", 2);
 	return (1);
 }
@@ -53,10 +51,8 @@ static int	save_parameter(char **av, t_param *param, int i)
 		return (err_print(2));
 	if (*ptr < 0)
 		return (err_print(3));
-	if (i == NP && *ptr <= 1)
-		return (err_print(4));
 	if (i == NP && *ptr > 200)
-		return (err_print(5));
+		return (err_print(4));
 	return (0);
 }
 

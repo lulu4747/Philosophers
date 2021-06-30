@@ -6,7 +6,7 @@
 /*   By: lfourage <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 19:36:59 by lfourage          #+#    #+#             */
-/*   Updated: 2021/06/21 19:37:01 by lfourage         ###   ########lyon.fr   */
+/*   Updated: 2021/06/30 12:25:59 by lfourage         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	*end(t_status **status, t_phi **phi, int bl)
 	t_phi	*ptr;
 
 	ptr = *phi;
-	pthread_mutex_lock((*status)->state);
+	pthread_mutex_lock((*status)->abs);
 	if (bl == 1)
 		printf("%d %d died\n", ts_ms((*phi)->start), (*phi)->id);
 	ptr->closing++;
@@ -27,7 +27,7 @@ static void	*end(t_status **status, t_phi **phi, int bl)
 		ptr->closing++;
 		ptr = ptr->next;
 	}
-	pthread_mutex_unlock((*status)->state);
+	pthread_mutex_unlock((*status)->abs);
 	return (NULL);
 }
 

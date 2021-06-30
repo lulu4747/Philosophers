@@ -7,6 +7,7 @@ SRCS			+= main.c
 SRCS			+= mutex_utils.c
 SRCS			+= parsing.c
 SRCS			+= philosophy.c
+SRCS			+= status_builder.c
 SRCS			+= status_utils.c
 SRCS			+= time_utils.c
 
@@ -55,6 +56,7 @@ SRCS_BONUS		+= main.c
 SRCS_BONUS		+= parsing.c
 SRCS_BONUS		+= philosophy.c
 SRCS_BONUS		+= process_utils.c
+SRCS_BONUS		+= processes.c
 SRCS_BONUS		+= status_monitor.c
 SRCS_BONUS		+= time_utils.c
 

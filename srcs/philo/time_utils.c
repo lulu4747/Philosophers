@@ -21,15 +21,15 @@ int	milliseconds(struct timeval time)
 	return (ret);
 }
 
-int	ts_ms(struct timeval start)
+int	ts_ms(int start)
 {
 	struct timeval	now;
 
 	gettimeofday(&now, NULL);
-	return (milliseconds(now) - milliseconds(start));
+	return (milliseconds(now) - start);
 }
 
-int	time_diff(int n, struct timeval start)
+int	time_diff(int n, int start)
 {
 	if (ts_ms(start) > n)
 		return (1);
