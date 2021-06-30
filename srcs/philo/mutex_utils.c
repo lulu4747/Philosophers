@@ -15,13 +15,14 @@
 int	abs_lock(t_phi **phi)
 {
 	pthread_mutex_lock((*phi)->state);
-	if (pthread_mutex_lock((*phi)->abs) == 0)
+	if ((*phi)->closing)
 	{
 		pthread_mutex_unlock((*phi)->state);
-		return (0);
+		return (1);
 	}
+	pthread_mutex_lock((*phi)->abs);
 	pthread_mutex_unlock((*phi)->state);
-	return (1);
+	return (0);
 }
 
 pthread_mutex_t	*mtx_destroy(pthread_mutex_t *mtx)

@@ -14,29 +14,35 @@
 
 static void	*end(t_status **status, t_phi **phi, int bl)
 {
-	pthread_mutex_t	*abs;
+	t_phi	*ptr;
 
-	abs = (*status)->abs;
+	ptr = *phi;
 	pthread_mutex_lock((*status)->state);
 	if (bl == 1)
 		printf("%d %d died\n", ts_ms((*phi)->start), (*phi)->id);
-	(*status)->abs = mtx_destroy((*status)->abs);
+	ptr->closing++;
+	ptr = ptr->next;
+	while (ptr != *phi)
+	{
+		ptr->closing++;
+		ptr = ptr->next;
+	}
 	pthread_mutex_unlock((*status)->state);
 	return (NULL);
 }
 
 void	*philosophers_status(void *arg)
 {
-	t_status	**status;
-	t_phi		*phi;
-	int			i;
+	t_status		**status;
+	t_phi			*phi;
+	int				i;
 
 	i = 0;
 	status = (t_status **)arg;
 	phi = (*status)->phi;
 	while (1)
 	{
-		if (time_diff(phi->eat, phi->params[TD]))
+		if (time_diff(phi->ttd, phi->start))
 			return (end(status, &phi, 1));
 		if (phi->params[NE] != -1)
 		{
@@ -60,6 +66,7 @@ t_status	*status_clean(t_status *status)
 		status->state = mtx_destroy(status->state);
 	if (status->frk != NULL)
 		frk_free(status->frk);
+	death(status->phi);
 	free(status);
 	return (NULL);
 }

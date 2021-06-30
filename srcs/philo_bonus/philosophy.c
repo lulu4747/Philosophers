@@ -97,10 +97,13 @@ int	philosophy(t_param	param)
 
 	phi.id = 0;
 	phi.nb_meal = 0;
+	phi.tte = 0;
+	phi.tts = 0;
 	phi.param = param;
 	if (semaphores_init(&phi))
 		return (1);
 	gettimeofday(&phi.start, NULL);
 	phi.eat = phi.start;
+	phi.ttd = param.ttd;
 	return (processes(phi));
 }

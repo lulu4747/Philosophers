@@ -16,18 +16,18 @@ static int	err_print(int **params, int err_code)
 {
 	if (err_code == 0)
 	{
-		ft_putstr_fd("Error : Wrong number of arguments\n", 2);
+		ft_putstr_fd("Error: number of arguments\n", 2);
 		return (1);
 	}
 	free(*params);
 	if (err_code == 1)
-		ft_putstr_fd("Error : Non-digit argument\n", 2);
+		ft_putstr_fd("Error: Non-digit argument\n", 2);
 	if (err_code == 2)
-		ft_putstr_fd("Error : Overflow\n", 2);
+		ft_putstr_fd("Error: Overflow\n", 2);
 	if (err_code == 3)
-		ft_putstr_fd("Error : Negative value\n", 2);
+		ft_putstr_fd("Error: Negative argument\n", 2);
 	if (err_code == 4)
-		ft_putstr_fd("Error : number_of_philosophers must be > 1\n", 2);
+		ft_putstr_fd("Error: number_of_philosophers <= 1\n", 2);
 	return (1);
 }
 

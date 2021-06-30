@@ -24,8 +24,12 @@ static t_phi	*birth(int *params, int id, t_frk *frk, pthread_mutex_t *abs)
 	phi->right = frk->next->mtx;
 	phi->id = id + 1;
 	phi->nb_meal = 0;
+	phi->closing = 0;
 	phi->params = params;
+	phi->tte = 0;
+	phi->tts = 0;
 	gettimeofday(&(phi->eat), NULL);
+	phi->ttd = params[TD];
 	return (phi);
 }
 

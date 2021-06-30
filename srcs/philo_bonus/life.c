@@ -5,15 +5,21 @@ static void	nap(t_phi *phi)
 	struct timeval	tv;
 
 	process_print(phi, "is sleeping", &tv);
-	while (!(time_diff(tv, phi->param.tts)))
+	phi->tts = ts_ms(phi->start) + phi->param.tts;
+	while (!(time_diff(phi->tts, phi->start)))
 		usleep(10);
 }
 
 static void	eat(t_phi **phi)
 {
+	int	tmp;
+
 	process_print((*phi), "is eating", &((*phi)->eat));
 	(*phi)->nb_meal++;
-	while (!(time_diff((*phi)->eat, (*phi)->param.tte)))
+	tmp = ts_ms((*phi)->start);
+	(*phi)->ttd = tmp + (*phi)->param.ttd;
+	(*phi)->tte = tmp + (*phi)->param.tte;
+	while (!(time_diff((*phi)->tte, (*phi)->start)))
 		usleep(10);
 }
 

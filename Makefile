@@ -20,6 +20,7 @@ INC				= ./srcs/philo/philo.h
 
 CC				= gcc
 CFLAGS			= -Wall -Werror -Wextra
+SANITIZE		= -g -fsanitize=address
 P_THREAD		= -pthread
 RM				= rm -f
 RM_DIR			= rm -rf

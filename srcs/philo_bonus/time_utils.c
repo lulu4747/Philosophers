@@ -21,22 +21,17 @@ int	milliseconds(struct timeval time)
 	return (ret);
 }
 
-int	time_diff(struct timeval diff, int n)
-{
-	struct timeval	now;
-	int				ms_diff;
-
-	gettimeofday(&now, NULL);
-	ms_diff = milliseconds(now) - milliseconds(diff);
-	if (ms_diff >= n)
-		return (1);
-	return (0);
-}
-
 int	ts_ms(struct timeval start)
 {
 	struct timeval	now;
 
 	gettimeofday(&now, NULL);
 	return (milliseconds(now) - milliseconds(start));
+}
+
+int	time_diff(int n, struct timeval start)
+{
+	if (ts_ms(start) > n)
+		return (1);
+	return (0);
 }

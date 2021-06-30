@@ -45,6 +45,9 @@ typedef struct s_phi
 	int				id;
 	pthread_t		tid;
 	int				nb_meal;
+	int				ttd;
+	int				tte;
+	int				tts;
 	struct timeval	start;
 	struct timeval	eat;
 	t_param			param;
@@ -58,7 +61,7 @@ typedef struct s_phi
 int		parsing(int ac, char **av, t_param *params);
 int		philosophy(t_param param);
 int		milliseconds(struct timeval time);
-int		time_diff(struct timeval diff, int n);
+int		time_diff(int n, struct timeval start);
 int		ts_ms(struct timeval start);
 void	life(t_phi *phi);
 void	*process_print(t_phi *phi, char *str, struct timeval *tv);

@@ -36,6 +36,10 @@ typedef struct s_phi
 	int				id;
 	struct timeval	start;
 	struct timeval	eat;
+	int				ttd;
+	int				tte;
+	int				tts;
+	int				closing;
 	int				nb_meal;
 	int				*params;
 	pthread_t		tid;
@@ -60,7 +64,7 @@ int				philosophy(int *params);
 void			*life(void *arg);
 void			*death(t_phi *phi);
 int				milliseconds(struct timeval time);
-int				time_diff(struct timeval diff, int n);
+int				time_diff(int n, struct timeval start);
 int				ts_ms(struct timeval start);
 int				abs_lock(t_phi **phi);
 int				print_fork(t_phi **phi, int type);
@@ -70,7 +74,6 @@ void			frk_free(t_frk *frk);
 t_status		*status_builder(int *params, t_status *status);
 void			*philosophers_status(void *arg);
 t_status		*status_clean(t_status *status);
-void			*delone(t_phi **phi);
 pthread_mutex_t	*mtx_create(const pthread_mutexattr_t *restrict attr);
 pthread_mutex_t	*mtx_destroy(pthread_mutex_t *mtx);
 

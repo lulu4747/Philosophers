@@ -10,7 +10,7 @@ void	*status_monitor(void *arg)
 	while (1)
 	{
 		usleep(10);
-		if (time_diff(phi->eat, phi->param.ttd))
+		if (time_diff(phi->ttd, phi->start))
 		{
 			process_print(phi, "died", NULL);
 			return (clean_exit(phi));

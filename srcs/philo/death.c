@@ -12,12 +12,6 @@
 
 #include "philo.h"
 
-void	*delone(t_phi **phi)
-{
-	free((*phi));
-	return (NULL);
-}
-
 void	*death(t_phi *phi)
 {
 	t_phi	*first;
