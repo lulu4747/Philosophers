@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lfourage <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 19:36:49 by lfourage          #+#    #+#             */
-/*   Updated: 2021/06/21 19:36:52 by lfourage         ###   ########lyon.fr   */
+/*   Updated: 2021/07/03 13:50:37 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	philosophy(int *params)
 	phi_launcher(phi, params);
 	pthread_create(&status->tid, NULL, &philosophers_status, (void *)(&status));
 	pthread_join(status->tid, NULL);
-	while (++i <= params[NP])
+	while (++i < params[NP])
 	{
 		pthread_join(phi->tid, NULL);
 		phi = phi->next;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   status_builder.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lfourage <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 12:26:04 by lfourage          #+#    #+#             */
-/*   Updated: 2021/06/30 12:26:06 by lfourage         ###   ########lyon.fr   */
+/*   Updated: 2021/07/03 15:47:08 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ static t_phi	*birth(int *params, int id, t_frk *frk, pthread_mutex_t *abs)
 	phi->nb_meal = 0;
 	phi->closing = 0;
 	phi->params = params;
-	phi->tte = params[TE] * 1000;
-	phi->tts = params[TS] * 1000;
+	phi->tte = 0;
+	phi->tts = 0;
 	phi->ttd = params[TD];
 	return (phi);
 }

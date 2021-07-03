@@ -2,40 +2,32 @@
 
 static void	nap(t_phi *phi)
 {
-	struct timeval	tv;
-
-	process_print(phi, "is sleeping", &tv);
-	phi->tts = ts_ms(phi->start) + phi->param.tts;
+	process_print(&phi, "is sleeping", 2);
 	while (!(time_diff(phi->tts, phi->start)))
-		usleep(10);
+		usleep(250);
 }
 
 static void	eat(t_phi **phi)
 {
-	int	tmp;
-
-	process_print((*phi), "is eating", &((*phi)->eat));
-	(*phi)->nb_meal++;
-	tmp = ts_ms((*phi)->start);
-	(*phi)->ttd = tmp + (*phi)->param.ttd;
-	(*phi)->tte = tmp + (*phi)->param.tte;
+	process_print(phi, "is eating", 1);
 	while (!(time_diff((*phi)->tte, (*phi)->start)))
-		usleep(10);
+		usleep(250);
 }
 
 static void	life_cycle(t_phi *phi)
 {
 	sem_wait(phi->prio);
 	sem_wait(phi->forks);
-	process_print(phi, "has taken a fork", NULL);
+	process_print(&phi, "has taken a fork", 0);
 	sem_wait(phi->forks);
-	process_print(phi, "has taken a fork", NULL);
+	process_print(&phi, "has taken a fork", 0);
 	sem_post(phi->prio);
 	eat(&phi);
 	sem_post(phi->forks);
 	sem_post(phi->forks);
 	nap(phi);
-	process_print(phi, "is thinking", NULL);
+	process_print(&phi, "is thinking", 0);
+	usleep(250);
 }
 
 void	life(t_phi *phi)

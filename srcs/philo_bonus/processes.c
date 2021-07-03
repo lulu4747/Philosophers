@@ -38,11 +38,8 @@ static int	one_phi(t_phi phi, pid_t *tab)
 {
 	int	wait;
 
-	wait = (phi.ttd * 1000) / 2;
+	wait = (phi.ttd * 1000) + 11000;
 	usleep(wait);
-	sem_wait(phi.abs);
-	usleep(wait);
-	printf("%d 1 died\n", phi.ttd + 2);
 	kill(tab[0], SIGKILL);
 	if (phi.param.ne != -1)
 		kill(tab[1], SIGKILL);

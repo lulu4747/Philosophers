@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 19:37:42 by lfourage          #+#    #+#             */
-/*   Updated: 2021/06/29 09:31:16 by lfourage         ###   ########lyon.fr   */
+/*   Updated: 2021/07/03 15:44:34 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,18 @@ static int	semaphores_init(t_phi *phi, t_param param)
 
 int	philosophy(t_param	param)
 {
-	t_phi	phi;
+	struct timeval	start;
+	t_phi			phi;
 
 	phi.id = 0;
 	phi.nb_meal = 0;
-	phi.tte = 0;
-	phi.tts = 0;
 	phi.param = param;
 	if (semaphores_init(&phi, param))
 		return (1);
-	gettimeofday(&phi.start, NULL);
-	phi.eat = phi.start;
+	gettimeofday(&start, NULL);
+	phi.tte = 0;
+	phi.tts = 0;
 	phi.ttd = param.ttd;
+	phi.start = milliseconds(start);
 	return (processes(phi));
 }

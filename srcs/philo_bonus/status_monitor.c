@@ -9,13 +9,13 @@ void	*status_monitor(void *arg)
 	phi = (t_phi *)arg;
 	while (1)
 	{
-		usleep(10);
 		if (time_diff(phi->ttd, phi->start))
 		{
-			process_print(phi, "died", NULL);
+			process_print(&phi, "died", 3);
 			return (clean_exit(phi));
 		}
 		if ((phi->param.ne != -1 && phi->nb_meal >= phi->param.ne && !i++))
 			sem_post(phi->ne_sem);
+		usleep(250);
 	}
 }

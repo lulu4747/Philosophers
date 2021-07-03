@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/22 16:24:27 by lfourage          #+#    #+#             */
-/*   Updated: 2021/06/25 23:51:28 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/03 14:45:09 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,15 @@ int	milliseconds(struct timeval time)
 	return (ret);
 }
 
-int	ts_ms(struct timeval start)
+int	ts_ms(int start)
 {
 	struct timeval	now;
 
 	gettimeofday(&now, NULL);
-	return (milliseconds(now) - milliseconds(start));
+	return (milliseconds(now) - start);
 }
 
-int	time_diff(int n, struct timeval start)
+int	time_diff(int n, int start)
 {
 	if (ts_ms(start) > n)
 		return (1);
