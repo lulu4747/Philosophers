@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 19:35:59 by lfourage          #+#    #+#             */
-/*   Updated: 2021/07/03 16:51:18 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/03 17:10:47 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main(int ac, char **av)
 
 	if (parsing(ac, av, &params) == 1)
 		return (1);
-	if (!params[NE])
+	if (!params[NP] || !params[NE])
 	{
 		free(params);
 		return (0);
