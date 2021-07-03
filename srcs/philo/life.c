@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 19:35:51 by lfourage          #+#    #+#             */
-/*   Updated: 2021/07/03 17:42:48 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/03 18:20:42 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ static int	eat(t_phi **phi)
 	(*phi)->tte = tmp + (*phi)->params[TE];
 	printf("%d %d is eating\n", tmp, (*phi)->id);
 	pthread_mutex_unlock((*phi)->abs);
-	(*phi)->nb_meal++;
 	while (!(time_diff((*phi)->tte, (*phi)->start)))
 		usleep(250);
+	(*phi)->nb_meal++;
 	return (0);
 }
 
