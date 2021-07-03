@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 12:26:04 by lfourage          #+#    #+#             */
-/*   Updated: 2021/07/03 15:47:08 by user42           ###   ########.fr       */
+/*   Updated: 2021/07/03 17:50:54 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@ static t_phi	*birth(int *params, int id, t_frk *frk, pthread_mutex_t *abs)
 	phi = malloc(sizeof(t_phi));
 	if (!phi)
 		return (NULL);
+	phi->eating = mtx_create(NULL);
+	if (!phi->eating)
+	{
+		free(phi);
+		return (NULL);
+	}
 	phi->abs = abs;
 	phi->left = frk->mtx;
 	phi->right = frk->next->mtx;
@@ -76,7 +82,7 @@ t_status	*status_builder(int *params, t_status *status)
 		free(params);
 		return (NULL);
 	}
-	status->state = NULL;
+	status->ts = 0;
 	status->phi = NULL;
 	status->frk = NULL;
 	status->abs = mtx_create(NULL);

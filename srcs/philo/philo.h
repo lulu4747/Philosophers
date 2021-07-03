@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lfourage <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 19:36:36 by lfourage          #+#    #+#             */
-/*   Updated: 2021/06/21 19:36:38 by lfourage         ###   ########lyon.fr   */
+/*   Updated: 2021/07/03 17:49:40 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_phi
 	pthread_t		tid;
 	pthread_mutex_t	*left;
 	pthread_mutex_t	*right;
+	pthread_mutex_t	*eating;
 	pthread_mutex_t	*abs;
 	struct s_phi	*next;
 }	t_phi;
@@ -52,10 +53,10 @@ typedef struct s_phi
 typedef struct s_status
 {
 	pthread_t		tid;
+	int				ts;
 	t_frk			*frk;
 	t_phi			*phi;
 	pthread_mutex_t	*abs;
-	pthread_mutex_t	*state;
 }	t_status;
 
 int				parsing(int ac, char **av, int **params);

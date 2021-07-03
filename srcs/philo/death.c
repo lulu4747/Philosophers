@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   death.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lfourage <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/21 19:35:34 by lfourage          #+#    #+#             */
-/*   Updated: 2021/06/21 19:35:36 by lfourage         ###   ########lyon.fr   */
+/*   Updated: 2021/07/03 17:37:18 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,11 @@ void	*death(t_phi *phi)
 	while (phi != NULL && phi != first)
 	{
 		next = phi->next;
+		phi->eating = mtx_destroy(phi->eating);
 		free(phi);
 		phi = next;
 	}
+	first->eating = mtx_destroy(first->eating);
 	free(first);
 	return (NULL);
 }
