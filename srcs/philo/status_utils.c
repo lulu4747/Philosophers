@@ -17,8 +17,8 @@ static void	*end(t_status **status, t_phi **phi, int bl)
 	t_phi	*ptr;
 
 	ptr = *phi;
-	pthread_mutex_unlock(ptr->eating);
 	pthread_mutex_lock((*status)->abs);
+	pthread_mutex_unlock(ptr->eating);
 	if (bl == 1)
 		printf("%d %d died\n", (*status)->ts, (*phi)->id);
 	ptr->closing++;
@@ -32,6 +32,18 @@ static void	*end(t_status **status, t_phi **phi, int bl)
 	return (NULL);
 }
 
+static int	is_dead(t_status **status, t_phi *phi)
+{
+	pthread_mutex_lock(phi->eating);
+	if (time_diff(phi->ttd, phi->start))
+	{
+		(*status)->ts = ts_ms(phi->start);
+		return (1);
+	}
+	pthread_mutex_unlock(phi->eating);
+	return (0);
+}
+
 void	*philosophers_status(void *arg)
 {
 	t_status		**status;
@@ -43,13 +55,8 @@ void	*philosophers_status(void *arg)
 	phi = (*status)->phi;
 	while (1)
 	{
-		pthread_mutex_lock(phi->eating);
-		if (time_diff(phi->ttd, phi->start))
-		{
-			(*status)->ts = ts_ms(phi->start);
+		if (is_dead(status, phi))
 			return (end(status, &phi, 1));
-		}
-		pthread_mutex_unlock(phi->eating);
 		if (phi->params[NE] != -1)
 		{
 			if (phi->nb_meal < phi->params[NE])
